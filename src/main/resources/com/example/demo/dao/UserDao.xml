@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.UserDao">
+    <!--配置查询所有-->
+    <!-- id 值是dao方法的名字  resultType的值是sql语句的返回对象，就是和sql语句的表一致的java对象。的全类名-->
+<!--    <select id="countUser" resultType="java.lang.String">-->
+<!--     select count(*) from users ;-->
+<!--   </select>-->
+
+
+    <select id="user" resultType="java.util.HashMap">
+        SELECT COUNT(*) `count`,
+        MAX(`password`) `max`,
+        AVG(`password`) `avg`,
+        SUM(`password`) `sum`
+        FROM users
+   </select>
+
+    <insert id="addUser"  parameterType="User" >
+        insert into users(`password`,`username`)
+        values(#{password},#{username});
+
+    </insert>
+
+    <!-- 根据id查询用户 -->
+    <select id="findById" parameterType="INT" resultType="com.example.demo.pojo.User">
+        select * from users where id = #{id}
+    </select>
+
+
+    <update id="updateUser">
+        update users
+        set `password`=#{password}
+        where id=#{id}
+    </update>
+
+    <select id="getUserList" parameterType="com.example.demo.pojo.UserCondition" resultType="com.example.demo.pojo.UserVO">
+        select * from users t  left join user  tt  on 1=1  where 1=1
+    <!--  两表连接的话   from后面的是主表订单查询的话，from后的主表是订单表 则条件类用的是订单条件类，从表中的某些字段要写到（关联到）订单条件类中  -->
+<!--        <if test="userCode !=null || userCode <>''">-->
+<!--          and user_code= #{userCode}-->
+<!--        </if>-->
+    </select>
+
+</mapper>
